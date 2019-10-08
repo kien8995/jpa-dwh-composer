@@ -78,9 +78,6 @@ fi
 case "$1" in
   webserver)
     airflow initdb
-
-    # Run admin script
-    python -i /airflow_admin_script.py
     
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ] || [ "$AIRFLOW__CORE__EXECUTOR" = "SequentialExecutor" ]; then
       # With the "Local" and "Sequential" executors it should all run in one container.

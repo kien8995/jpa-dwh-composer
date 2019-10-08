@@ -27,9 +27,9 @@ ENV AIRFLOW__CORE__EXECUTOR SequentialExecutor
 ENV AIRFLOW__CORE__SQL_ALCHEMY_CONN postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 
 # Airflow admin user
-ENV AIRFLOW_ADMIN_USER admin
-ENV AIRFLOW_ADMIN_EMAIL kientd.aits@vietnamairlines.com
-ENV AIRFLOW_ADMIN_PASS Admin@123
+# ENV AIRFLOW_ADMIN_USER admin
+# ENV AIRFLOW_ADMIN_EMAIL kientd.aits@vietnamairlines.com
+# ENV AIRFLOW_ADMIN_PASS Admin@123
 
 # Define en_US.
 ENV LANGUAGE en_US.UTF-8
@@ -75,10 +75,8 @@ RUN set -ex \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-    && pip install apache-airflow[crypto,password,celery,postgres,hive,jdbc,mysql,mssql,oracle,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
+    && pip install apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION} \
     && pip install 'redis==3.2' \
-    && pip install requests \
-    && pip install avro-python3 \
     && pip install google-cloud-bigquery \
     && pip install google-cloud-storage \
     && if [ -n "${PYTHON_DEPS}" ]; then pip install ${PYTHON_DEPS}; fi \
@@ -94,7 +92,6 @@ RUN set -ex \
         /usr/share/doc-base
 
 COPY script/entrypoint.sh /entrypoint.sh
-COPY script/airflow_admin_script.py /airflow_admin_script.py
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
 RUN chown -R airflow: ${AIRFLOW_USER_HOME}

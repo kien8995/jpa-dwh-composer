@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from datetime import datetime, timedelta
-from dags.webservices.flt_bl import FLT_BLTask
+from dags.load_to_bq.flt_bl import FLT_BLTask
 
 default_args = {
     "owner": "kien tran",
@@ -12,14 +12,13 @@ default_args = {
     "email_on_retry": False,
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
-    "catchup": False,
     # 'queue': 'bash_queue',
     # 'pool': 'backfill',
     # 'priority_weight': 10,
     # 'end_date': datetime(2019, 1, 1),
 }
 
-dag = DAG("webservice", default_args=default_args, schedule_interval=timedelta(days = 1))
+dag = DAG("load_avro_to_bq", default_args=default_args, catchup=False, schedule_interval=timedelta(days = 1))
 
 with dag:
     start = DummyOperator(

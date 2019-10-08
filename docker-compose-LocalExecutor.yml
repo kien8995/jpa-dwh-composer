@@ -8,7 +8,7 @@ services:
             - POSTGRES_DB=airflow
 
     webserver:
-        image: airflow-server:1.0
+        image: airflow-server-cloud:1.0
         build: .
         restart: always
         depends_on:
@@ -22,7 +22,7 @@ services:
             # Uncomment to include custom plugins
             # - ./plugins:/usr/local/airflow/plugins
         ports:
-            - "8080:8080"
+            - "8081:8080"
         command: webserver
         healthcheck:
             test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
