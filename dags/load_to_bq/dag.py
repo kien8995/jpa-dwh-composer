@@ -18,7 +18,8 @@ default_args = {
     # 'end_date': datetime(2019, 1, 1),
 }
 
-dag = DAG("load_avro_to_bq", default_args=default_args, catchup=False, schedule_interval=timedelta(days = 1))
+dag = DAG("load_avro_to_bq", default_args=default_args, catchup=False,
+          max_active_runs=1, schedule_interval=timedelta(days=1))
 
 with dag:
     start = DummyOperator(
